@@ -1,0 +1,13 @@
+.square {
+  background-color: gray;
+  width: 100px;
+  height: 100px;
+  margin: 10px;
+}
+
+#grid {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 400px;
+}
