@@ -9,18 +9,20 @@ class App extends Component{
     this.state = {
       squares: ["?", "?", "?", "?", "?", "?", "?", "?", "?"],
       newGame: true,
-      counter: 8,
+      counter: 10,
       clicked: false
     }
   }
 
+  // a method that sets the bomb and treasure chest to a random location in the array
   componentDidMount() {
     const { squares } = this.state
-    let randomTreasure = Math.floor(Math.random() * this.state.squares.length)
-    let randomBomb = Math.floor(Math.random() * this.state.squares.length)
+    let randomTreasure = Math.floor(Math.random() * squares.length)
+    let randomBomb = Math.floor(Math.random() * squares.length)
+    // this while loop makes sure that the treasure and bomb aren't assigned to the same index
     while (randomTreasure === randomBomb) {
-      randomTreasure = Math.floor(Math.random() * this.state.squares.length)
-      randomBomb = Math.floor(Math.random() * this.state.squares.length)
+      randomTreasure = Math.floor(Math.random() * squares.length)
+      randomBomb = Math.floor(Math.random() * squares.length)
     }
     squares[randomTreasure] = "treasure"
     squares[randomBomb] = "bomb"
@@ -29,15 +31,16 @@ class App extends Component{
       newGame: true
     })
   }
-
+// a function that resets the state when clicked on and calls the componentDidMount method
   reset = () => {
+      this.componentDidMount()
       this.setState( {squares: ["?", "?", "?", "?", "?", "?", "?", "?", "?"],
       newGame: true,
-      counter: 8}
-      )
-      this.componentDidMount()
+      counter: 10
+    })
+    
   }
-
+// counts how many clicks are left until the user loses
   clickCounter = () => {
     let { counter } = this.state
     counter -= 1
@@ -46,7 +49,8 @@ class App extends Component{
         alert("you lose")
     }
   }
-
+// a conditional method the triggers an alert if the user wins or loses by finding treasure or a bomb
+// the value is passed in as an argument from Square.js 
   handleOnClick = (value) => {
     this.setState({
       newGame: false,
@@ -60,6 +64,7 @@ class App extends Component{
   }
 
   render(){
+      // iterates through the squares array in the state object and displays it on the page in square.js
     let square = this.state.squares.map((value, index) => {
       return(
         <Square

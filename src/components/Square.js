@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import '../App.css'
 
 class Square extends Component{
+    // sends the value prop to the method handleOnClick in App.js
   handleOnClickToApp = () => {
     this.props.handleOnClick(this.props.value)
   }
