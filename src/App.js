@@ -27,47 +27,37 @@ class App extends Component{
     this.setState({
       squares: squares,
       newGame: true
-    })   
+    })
   }
 
   reset = () => {
       this.setState( {squares: ["?", "?", "?", "?", "?", "?", "?", "?", "?"],
       newGame: true,
-      counter: 8} 
+      counter: 8}
       )
       this.componentDidMount()
   }
 
   clickCounter = () => {
-   
     let { counter } = this.state
     counter -= 1
-
     this.setState({ counter: counter })
-
     if (counter === 0) {
         alert("you lose")
-
     }
-
-      
   }
 
-  handleOnClick = () => {
-
-    this.setState({ newGame: false,
-                    clicked: true
+  handleOnClick = (value) => {
+    this.setState({
+      newGame: false,
+      clicked: true
     })
-
-    if (this.state.value === "treasure") {
+    if (value === "treasure") {
       alert("You win!")
-    } else if (this.state.value === "bomb") {
+    } else if (value === "bomb") {
       alert("You lose!")
     }
-
-
   }
-
 
   render(){
     let square = this.state.squares.map((value, index) => {
@@ -94,7 +84,7 @@ class App extends Component{
           { square }
         </div>
         <button onClick= {this.reset} id="reset">Start / Reset</button>
-        <Counter 
+        <Counter
             counter = {this.state.counter}
         />
       </>
