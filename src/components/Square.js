@@ -9,16 +9,13 @@ class Square extends Component{
       }
   }
 
-  handleChange = e => {
+  handleOnClick = () => {
+    this.props.handleSquareChange(this.state.squares)
     const { squares } = this.state
-    squares[this.props.index] =
+    squares[this.props.index] = "tree"
     this.setState({
       squares: squares
     })
-  }
-
-  positionAlert = () => {
-    alert( this.props.index )
   }
 
   render(){
@@ -26,7 +23,7 @@ class Square extends Component{
       <>
         <div
           className = "square"
-          onClick = { this.handleChange }
+          onClick = { this.handleOnClick }
           >
           { this.props.value }
         </div>

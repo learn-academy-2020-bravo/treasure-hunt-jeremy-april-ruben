@@ -12,7 +12,7 @@ class App extends Component{
 
   handleSquareChange = squareValue => {
     this.setState({
-      squares: squareValues,
+      squares: squareValue
     })
   }
 
