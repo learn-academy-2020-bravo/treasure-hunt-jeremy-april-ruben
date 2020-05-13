@@ -6,13 +6,23 @@ class App extends Component{
   constructor(props){
     super(props)
     this.state = {
-      squares: ["?", "?", "?", "?", "?", "?", "?", "?", "?"]
+      squares: ["?", "?", "?", "?", "?", "?", "?", "?", "?"],
+      newGame: true
     }
   }
 
-  handleSquareChange = squareValue => {
+  reset = () => {
+    this.state.squares = ["?", "?", "?", "?", "?", "?", "?", "?", "?"]
+    let randomTreasure = Math.floor(Math.random() * this.state.squares.length)
+    let randomBomb = Math.floor(Math.random() * this.state.squares.length)
+    while (randomTreasure === randomBomb) {
+      randomTreasure = Math.floor(Math.random() * this.state.squares.length)
+      randomBomb = Math.floor(Math.random() * this.state.squares.length)
+    }
+    this.state.squares[randomTreasure] = "treasure"
+    this.state.squares[randomBomb] = "bomb"
     this.setState({
-      squares: squareValue
+      newGame: true
     })
   }
 
@@ -24,6 +34,7 @@ class App extends Component{
           index = { index }
           squares = { this.state.squares}
           handleSquareChange = { this.handleSquareChange }
+          newGame = { this.state.newGame }
         />
       )
     })
@@ -36,6 +47,7 @@ class App extends Component{
         >
           { square }
         </div>
+        <button onClick= {this.reset} id="reset">Start / Reset</button>
       </>
     )
   }

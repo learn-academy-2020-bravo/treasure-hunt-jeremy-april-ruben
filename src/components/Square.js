@@ -5,16 +5,16 @@ class Square extends Component{
   constructor(props){
     super(props)
       this.state = {
-        squares: this.props.squares
+        squares: this.props.squares,
+        newGame: this.props.newGame,
+        clicked: false
       }
   }
 
   handleOnClick = () => {
-    this.props.handleSquareChange(this.state.squares)
-    const { squares } = this.state
-    squares[this.props.index] = "tree"
     this.setState({
-      squares: squares
+      newGame: false,
+      clicked: true
     })
   }
 
@@ -25,7 +25,9 @@ class Square extends Component{
           className = "square"
           onClick = { this.handleOnClick }
           >
-          { this.props.value }
+          {this.state.clicked &&
+            this.props.value
+          }
         </div>
       </>
     )
