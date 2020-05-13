@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Square from './components/Square'
+import Counter from './components/Counter'
 import './App.css'
 
 class App extends Component{
@@ -7,11 +8,13 @@ class App extends Component{
     super(props)
     this.state = {
       squares: ["?", "?", "?", "?", "?", "?", "?", "?", "?"],
-      newGame: true
+      newGame: true,
+      counter: 8,
+      clicked: false
     }
   }
 
-  reset = () => {
+  componentDidMount() {
     const { squares } = this.state
     let randomTreasure = Math.floor(Math.random() * this.state.squares.length)
     let randomBomb = Math.floor(Math.random() * this.state.squares.length)
@@ -24,8 +27,47 @@ class App extends Component{
     this.setState({
       squares: squares,
       newGame: true
-    })
+    })   
   }
+
+  reset = () => {
+      this.setState( {squares: ["?", "?", "?", "?", "?", "?", "?", "?", "?"],
+      newGame: true,
+      counter: 8} 
+      )
+      this.componentDidMount()
+  }
+
+  clickCounter = () => {
+   
+    let { counter } = this.state
+    counter -= 1
+
+    this.setState({ counter: counter })
+
+    if (counter === 0) {
+        alert("you lose")
+
+    }
+
+      
+  }
+
+  handleOnClick = () => {
+
+    this.setState({ newGame: false,
+                    clicked: true
+    })
+
+    if (this.state.value === "treasure") {
+      alert("You win!")
+    } else if (this.state.value === "bomb") {
+      alert("You lose!")
+    }
+
+
+  }
+
 
   render(){
     let square = this.state.squares.map((value, index) => {
@@ -36,6 +78,8 @@ class App extends Component{
           squares = { this.state.squares}
           handleSquareChange = { this.handleSquareChange }
           newGame = { this.state.newGame }
+          clicked = { this.state.clicked }
+          handleOnClick = { this.handleOnClick }
         />
       )
     })
@@ -45,10 +89,14 @@ class App extends Component{
         <h1>Treasure Hunt</h1>
         <div
           id="grid"
+          onClick = {this.clickCounter}
         >
           { square }
         </div>
         <button onClick= {this.reset} id="reset">Start / Reset</button>
+        <Counter 
+            counter = {this.state.counter}
+        />
       </>
     )
   }

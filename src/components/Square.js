@@ -2,25 +2,14 @@ import React, { Component } from 'react'
 import '../App.css'
 
 class Square extends Component{
-  constructor(props){
-    super(props)
-      this.state = {
-        squares: this.props.squares,
-        newGame: this.props.newGame,
-        clicked: false
-      }
-  }
+  
 
-  handleOnClick = () => {
-    this.setState({
-      newGame: false,
-      clicked: true
-    })
-    if (this.props.value === "treasure") {
-      alert("You win!")
-    } else if (this.props.value === "bomb") {
-      alert("You lose!")
-    }
+  winOrLose = () => {
+     if (this.props.value === "treasure") {
+        alert("You win!")
+      } else if (this.props.value === "bomb") {
+        alert("You lose!")
+      }
   }
 
   render(){
@@ -28,9 +17,9 @@ class Square extends Component{
       <>
         <div
           className = "square"
-          onClick = { this.handleOnClick }
+          onClick = { this.props.handleOnClick }
           >
-          {this.state.clicked &&
+          {
             this.props.value
           }
         </div>
