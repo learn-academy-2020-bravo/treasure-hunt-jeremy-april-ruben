@@ -16,6 +16,11 @@ class Square extends Component{
       newGame: false,
       clicked: true
     })
+    if (this.props.value === "treasure") {
+      alert("You win!")
+    } else if (this.props.value === "bomb") {
+      alert("You lose!")
+    }
   }
 
   render(){

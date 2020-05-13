@@ -12,16 +12,17 @@ class App extends Component{
   }
 
   reset = () => {
-    this.state.squares = ["?", "?", "?", "?", "?", "?", "?", "?", "?"]
+    const { squares } = this.state
     let randomTreasure = Math.floor(Math.random() * this.state.squares.length)
     let randomBomb = Math.floor(Math.random() * this.state.squares.length)
     while (randomTreasure === randomBomb) {
       randomTreasure = Math.floor(Math.random() * this.state.squares.length)
       randomBomb = Math.floor(Math.random() * this.state.squares.length)
     }
-    this.state.squares[randomTreasure] = "treasure"
-    this.state.squares[randomBomb] = "bomb"
+    squares[randomTreasure] = "treasure"
+    squares[randomBomb] = "bomb"
     this.setState({
+      squares: squares,
       newGame: true
     })
   }
