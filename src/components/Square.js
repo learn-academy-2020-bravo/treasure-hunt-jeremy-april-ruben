@@ -14,7 +14,7 @@ class Square extends Component{
     if (this.props.newGame) {
       display = null
     } // if the value in the clicked array on the index the same as squares is equal to true, then display the value
-    else if (this.props.clicked[this.props.index]) {
+    else if (this.props.usedIndexes.includes(this.props.index)) {
       display = this.props.value
     }
     return(
@@ -23,7 +23,6 @@ class Square extends Component{
           className = "square"
           onClick = { this.handleOnClickToApp }
           >
-
           {
             // this.props.value
             display

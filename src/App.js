@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Square from './components/Square'
 import Counter from './components/Counter'
+import Messages from './components/Messages'
 import './App.css'
 
 class App extends Component{
@@ -10,12 +11,15 @@ class App extends Component{
       // Empty because values are added through methods
       squares: [],
       // Clicked is an array of falses with the same length of squares. The index value will equal true when the square has been clicked on
-      clicked: [],
+      usedIndexes: [],
       // newGame will equal false as soon as the user clicks their first square
       newGame: true,
       // Done will equal true if user has lost or won
       done: false,
       counter: 15,
+      win: false,
+      dead: false,
+      lose: false
     }
   }
 
@@ -23,9 +27,7 @@ class App extends Component{
   componentDidMount() {
     // Likely another way without For loop, but using For loop to produce a large array with the same value repeated, instead of passing the value over and over again
     let squares = []
-    let clicked = []
     for (let i=0; i<25; i++) squares.push("🌲")
-    for (let i=0; i<25; i++) clicked.push(false)
     let randomTreasure = Math.floor(Math.random() * squares.length)
     let randomBomb1 = Math.floor(Math.random() * squares.length)
     // let randomBomb2 = Math.floor(Math.random() * squares.length)
@@ -46,9 +48,7 @@ class App extends Component{
 // a function that resets the state when clicked on and calls the componentDidMount method
   reset = () => {
     let squares = []
-    let clicked = []
     for (let i=0; i<25; i++) squares.push("🌲")
-    for (let i=0; i<25; i++) clicked.push(false)
     // resets square and clicked back to their original array
     this.setState({
       squares: squares,
@@ -56,7 +56,10 @@ class App extends Component{
       done: false,
       counter: 15,
       bombCounter: 0,
-      clicked: clicked
+      usedIndexes: [],
+      win: false,
+      dead: false,
+      lose: false
     })
     this.componentDidMount()
   }
@@ -64,17 +67,17 @@ class App extends Component{
 // a conditional method the triggers an alert if the user wins or loses by finding treasure or a bomb
 // the value is passed in as an argument from Square.js
   handleOnClick = (value, index) => {
-    const { clicked } = this.state
+    const { usedIndexes } = this.state
     let { counter } = this.state
     // let { bombCounter } = this.state
     // if the initial clicked value is false, then decrement the counter
     // if (!clicked[index] && value === "bomb") bombCounter++
-    if (!clicked[index] && !this.state.done) counter--
+    if (!usedIndexes.includes(index) && !this.state.done) counter--
     // change the boolean value of clicked at the index of the value to true
-    if (!this.state.done) clicked[index] = true
+    if (!this.state.done) usedIndexes.push(index)
     this.setState({
       newGame: false,
-      clicked: clicked,
+      usedIndexes: usedIndexes,
       // Moved the counter to handleOnClick
       counter: counter
     })
@@ -83,20 +86,26 @@ class App extends Component{
 
   alerts = (value) => {
     let { done } = this.state
+    let { win } = this.state
+    let { dead } = this.state
+    let { lose } = this.state
     let { counter } = this.state
     if (value === "💰" && done !== true) {
       // Alert delays by 200 milliseconds
-      setTimeout(() => alert("YOU WIN!"), 200)
+      // setTimeout(() => alert("YOU WIN!"), 200)
+      win = true
       // Convert 'done' to true since the game is over
       done = true
     } else if (value === "💣" && done !== true) {
-      setTimeout(() => alert("YOU'RE DEAD!"), 200)
+      // setTimeout(() => alert("YOU'RE DEAD!"), 200)
+      dead = true
       done = true
     } else if (counter === 1) {
-      setTimeout(() => alert("Too many tries, you lose!"), 200)
+      // setTimeout(() => alert("Too many tries, you lose!"), 200)
+      lose = true
       done = true
     }
-    this.setState({ done: done })
+    this.setState({ done: done, win: win, dead: dead, lose: lose})
   }
 
   render(){
@@ -107,11 +116,11 @@ class App extends Component{
           value = { value }
           index = { index }
           squares = { this.state.squares}
-          handleSquareChange = { this.handleSquareChange }
           newGame = { this.state.newGame }
-          clicked = { this.state.clicked }
           handleOnClick = { this.handleOnClick }
           done = { this.state.done }
+          key = { index }
+          usedIndexes = { this.state.usedIndexes }
         />
       )
     })
@@ -120,6 +129,11 @@ class App extends Component{
       <>
         <div className = "body">
           <h1>Treasure Hunt</h1>
+          <Messages
+            win = { this.state.win }
+            dead = { this.state.dead }
+            lose = { this.state.lose }
+          />
           <div id="grid">
             { square }
           </div>
@@ -133,13 +147,3 @@ class App extends Component{
   }
 }
 export default App
-
-// Create a component that will represent each square, with "?" inside
-// Each onClick of component should give alert with ID of position in the grid
-// Then each onClick of component should switch "?" to the word "tree"
-// Assign on component's onClick to switch "?" to treasure box and an alert with text "You Win"
-// Create method that decrements the guesses user has left
-// Create method or render conditional where a message says "Win" or "Lose"
-// Create a button with onClick that restarts the game
-// Have onClick of one component display a bomb icon and mesesage "You Lose"
-// Create conditional where user has 25 turns and an allotment of selecting three bombs

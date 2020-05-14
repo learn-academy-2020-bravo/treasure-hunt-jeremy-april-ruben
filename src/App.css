@@ -15,6 +15,16 @@
   margin: 2px;
 }
 
+#messages {
+  height: 30px;
+  font-size: 20px;
+  margin-bottom: 40px;
+}
+
+h1 {
+  margin-bottom: 0px;
+}
+
 #grid {
   display: flex;
   flex-direction: row;
