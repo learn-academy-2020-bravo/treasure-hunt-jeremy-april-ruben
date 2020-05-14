@@ -16,7 +16,7 @@ class App extends Component{
 
   // a method that sets the bomb and treasure chest to a random location in the array
   componentDidMount() {
-    const { squares } = this.state
+    let squares = ["?", "?", "?", "?", "?", "?", "?", "?", "?"]
     let randomTreasure = Math.floor(Math.random() * squares.length)
     let randomBomb = Math.floor(Math.random() * squares.length)
     // this while loop makes sure that the treasure and bomb aren't assigned to the same index
@@ -33,12 +33,11 @@ class App extends Component{
   }
 // a function that resets the state when clicked on and calls the componentDidMount method
   reset = () => {
-      this.componentDidMount()
       this.setState( {squares: ["?", "?", "?", "?", "?", "?", "?", "?", "?"],
       newGame: true,
       counter: 10
     })
-    
+    this.componentDidMount()
   }
 // counts how many clicks are left until the user loses
   clickCounter = () => {
@@ -50,7 +49,7 @@ class App extends Component{
     }
   }
 // a conditional method the triggers an alert if the user wins or loses by finding treasure or a bomb
-// the value is passed in as an argument from Square.js 
+// the value is passed in as an argument from Square.js
   handleOnClick = (value) => {
     this.setState({
       newGame: false,
