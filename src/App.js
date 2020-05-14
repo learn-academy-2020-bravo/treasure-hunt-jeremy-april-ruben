@@ -84,12 +84,12 @@ class App extends Component{
   alerts = (value) => {
     let { done } = this.state
     let { counter } = this.state
-    if (value === "💰") {
+    if (value === "💰" && done !== true) {
       // Alert delays by 200 milliseconds
       setTimeout(() => alert("YOU WIN!"), 200)
       // Convert 'done' to true since the game is over
       done = true
-    } else if (value === "💣") {
+    } else if (value === "💣" && done !== true) {
       setTimeout(() => alert("YOU'RE DEAD!"), 200)
       done = true
     } else if (counter === 1) {
