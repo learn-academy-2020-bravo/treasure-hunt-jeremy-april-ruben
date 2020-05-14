@@ -7,16 +7,22 @@ class App extends Component{
   constructor(props){
     super(props)
     this.state = {
-      squares: ["?", "?", "?", "?", "?", "?", "?", "?", "?"],
+      // Empty because values are added through methods
+      squares: [],
+      // Instead of there being ONE clicked boolean value, this will be an array of falses with the same length of squares
+      clicked: [],
       newGame: true,
       counter: 10,
-      clicked: false
     }
   }
 
   // a method that sets the bomb and treasure chest to a random location in the array
   componentDidMount() {
-    let squares = ["?", "?", "?", "?", "?", "?", "?", "?", "?"]
+    // Likely another way without For loop, but using For loop to produce a large array with the same value repeated, instead of pasting the value over and over again
+    let squares = []
+    let clicked = []
+    for (let i=0; i<25; i++) squares.push("?")
+    for (let i=0; i<25; i++) clicked.push(false)
     let randomTreasure = Math.floor(Math.random() * squares.length)
     let randomBomb = Math.floor(Math.random() * squares.length)
     // this while loop makes sure that the treasure and bomb aren't assigned to the same index
@@ -27,38 +33,51 @@ class App extends Component{
     squares[randomTreasure] = "treasure"
     squares[randomBomb] = "bomb"
     this.setState({
-      squares: squares,
-      newGame: true
+      squares: squares
     })
   }
 // a function that resets the state when clicked on and calls the componentDidMount method
   reset = () => {
-      this.setState( {squares: ["?", "?", "?", "?", "?", "?", "?", "?", "?"],
+    let squares = []
+    let clicked = []
+    for (let i=0; i<25; i++) squares.push("?")
+    for (let i=0; i<25; i++) clicked.push(false)
+    // resets square and clicked back to their original array
+    this.setState({
+      squares: squares,
       newGame: true,
-      counter: 10
+      counter: 10,
+      bombCounter: 0,
+      clicked: clicked
     })
     this.componentDidMount()
   }
 // counts how many clicks are left until the user loses
-  clickCounter = () => {
-    let { counter } = this.state
-    counter -= 1
-    this.setState({ counter: counter })
-    if (counter === 0) {
-        alert("you lose")
-    }
-  }
 // a conditional method the triggers an alert if the user wins or loses by finding treasure or a bomb
 // the value is passed in as an argument from Square.js
-  handleOnClick = (value) => {
+  handleOnClick = (value, index) => {
+    const { clicked } = this.state
+    let { counter } = this.state
+    clicked[index] = true
     this.setState({
       newGame: false,
-      clicked: true
+      clicked: clicked,
+      // Moved the counter to handleOnClick
+      counter: counter - 1,
     })
     if (value === "treasure") {
-      alert("You win!")
+      // Alert delays by 200 milliseconds
+      setTimeout(function() {
+        alert("You win!")
+      }, 200)
     } else if (value === "bomb") {
-      alert("You lose!")
+      setTimeout(function() {
+        alert("You lose!")
+      }, 200)
+    } else if (counter === 1) {
+      setTimeout(function() {
+        alert("You lose!")
+      }, 200)
     }
   }
 
@@ -81,13 +100,10 @@ class App extends Component{
     return(
       <>
         <h1>Treasure Hunt</h1>
-        <div
-          id="grid"
-          onClick = {this.clickCounter}
-        >
+        <div id="grid">
           { square }
         </div>
-        <button onClick= {this.reset} id="reset">Start / Reset</button>
+        <button onClick= {this.reset} id="reset">Reset</button>
         <Counter
             counter = {this.state.counter}
         />
