@@ -3,6 +3,7 @@ import Square from './components/Square'
 import Counter from './components/Counter'
 import Messages from './components/Messages'
 import Header from './components/Header'
+import Gun from './components/Gun'
 import './App.css'
 
 class App extends Component{
@@ -24,11 +25,31 @@ class App extends Component{
     }
   }
 
+  playAudioShoot() {
+    const audioEl = document.getElementsByClassName("audio-element")[0]
+    audioEl.play()
+  }
+
+  playAudioStart() {
+    const audioEl = document.getElementsByClassName("audio-element2")[0]
+    audioEl.play()
+  }
+
+  playAudioDog() {
+    const audioEl = document.getElementsByClassName("audio-element3")[0]
+    audioEl.play()
+  }
+
+  playAudioDuck() {
+    const audioEl = document.getElementsByClassName("audio-element4")[0]
+    audioEl.play()
+  }
+
   // a method that sets the bomb and treasure chest to a random location in the array
   componentDidMount() {
     // Likely another way without For loop, but using For loop to produce a large array with the same value repeated, instead of passing the value over and over again
     let squares = []
-    for (let i=0; i<25; i++) squares.push("❌")
+    for (let i=0; i<25; i++) squares.push("❌") 
     let randomTreasure = Math.floor(Math.random() * squares.length)
     let randomBomb1 = Math.floor(Math.random() * squares.length)
     // let randomBomb2 = Math.floor(Math.random() * squares.length)
@@ -63,6 +84,7 @@ class App extends Component{
       lose: false
     })
     this.componentDidMount()
+    this.playAudioStart()
   }
 // counts how many clicks are left until the user loses
 // a conditional method the triggers an alert if the user wins or loses by finding treasure or a bomb
@@ -83,6 +105,7 @@ class App extends Component{
       counter: counter
     })
     this.alerts(value)
+    this.playAudioShoot()
   }
 
   alerts = (value) => {
@@ -92,12 +115,14 @@ class App extends Component{
     let { lose } = this.state
     let { counter } = this.state
     if (value === "🦆" && done !== true) {
+      this.playAudioDuck() 
       // Alert delays by 200 milliseconds
       // setTimeout(() => alert("YOU WIN!"), 200)
       win = true
       // Convert 'done' to true since the game is over
       done = true
     } else if (value === "🐕" && done !== true) {
+      this.playAudioDog()
       // setTimeout(() => alert("YOU'RE DEAD!"), 200)
       dead = true
       done = true
@@ -130,6 +155,18 @@ class App extends Component{
       <>
         <div className = "body">
           <Header />
+          <audio className="audio-element">
+            <source src="http://soundbible.com/mp3/Winchester12-RA_The_Sun_God-1722751268.mp3"></source>
+          </audio>
+          <audio className="audio-element2">
+            <source src="https://fi.zophar.net/soundfiles/nintendo-nes-nsf/duck-hunt/8%20-%20Game%20Over.mp3"></source>
+          </audio>
+          <audio className="audio-element3">
+            <source src="https://fi.zophar.net/soundfiles/nintendo-nes-nsf/duck-hunt/16%20-%20SFX%20Dog%20Laughs.mp3"></source>
+          </audio>
+          <audio className="audio-element4">
+            <source src="https://fi.zophar.net/soundfiles/nintendo-nes-nsf/duck-hunt/13%20-%20SFX%20Duck%20Quack.mp3"></source>
+          </audio>
           <Messages
             win = { this.state.win }
             dead = { this.state.dead }

@@ -5,7 +5,7 @@ class Counter extends Component {
   render() {
       return (
         <>
-            <p> Number of clicks left: <strong> {this.props.counter} </strong> </p>
+            <p> Ammo left: <strong> {this.props.counter} </strong> </p>
         </>
       )
   }

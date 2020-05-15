@@ -6,9 +6,9 @@ class Messages extends Component {
     return (
         <>
           <div id="messages">
-            {this.props.win && <h3>You win!</h3>}
-            {this.props.dead && <h3>You died!</h3>}
-            {this.props.lose && <h3>Too many tries, you lose!</h3>}
+            {this.props.win && <h3>Winner, winner, duck dinner!</h3>}
+            {this.props.dead && <h3>You almost shot your dog!</h3>}
+            {this.props.lose && <h3>Ran out of ammo, try again!</h3>}
           </div>
         </>
     )
