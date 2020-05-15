@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import Square from './components/Square'
 import Counter from './components/Counter'
 import Messages from './components/Messages'
+import Header from './components/Header'
 import './App.css'
 
 class App extends Component{
@@ -27,7 +28,7 @@ class App extends Component{
   componentDidMount() {
     // Likely another way without For loop, but using For loop to produce a large array with the same value repeated, instead of passing the value over and over again
     let squares = []
-    for (let i=0; i<25; i++) squares.push("🌲")
+    for (let i=0; i<25; i++) squares.push("❌")
     let randomTreasure = Math.floor(Math.random() * squares.length)
     let randomBomb1 = Math.floor(Math.random() * squares.length)
     // let randomBomb2 = Math.floor(Math.random() * squares.length)
@@ -37,8 +38,8 @@ class App extends Component{
       randomTreasure = Math.floor(Math.random() * squares.length)
       randomBomb1 = Math.floor(Math.random() * squares.length)
     }
-    squares[randomTreasure] = "💰"
-    squares[randomBomb1] = "💣"
+    squares[randomTreasure] = "🦆"
+    squares[randomBomb1] = "🐕"
     // squares[randomBomb2] = "bomb"
     // squares[randomBomb3] = "bomb"
     this.setState({
@@ -48,7 +49,7 @@ class App extends Component{
 // a function that resets the state when clicked on and calls the componentDidMount method
   reset = () => {
     let squares = []
-    for (let i=0; i<25; i++) squares.push("🌲")
+    for (let i=0; i<25; i++) squares.push("❌")
     // resets square and clicked back to their original array
     this.setState({
       squares: squares,
@@ -90,13 +91,13 @@ class App extends Component{
     let { dead } = this.state
     let { lose } = this.state
     let { counter } = this.state
-    if (value === "💰" && done !== true) {
+    if (value === "🦆" && done !== true) {
       // Alert delays by 200 milliseconds
       // setTimeout(() => alert("YOU WIN!"), 200)
       win = true
       // Convert 'done' to true since the game is over
       done = true
-    } else if (value === "💣" && done !== true) {
+    } else if (value === "🐕" && done !== true) {
       // setTimeout(() => alert("YOU'RE DEAD!"), 200)
       dead = true
       done = true
@@ -128,7 +129,7 @@ class App extends Component{
     return(
       <>
         <div className = "body">
-          <h1>Treasure Hunt</h1>
+          <Header />
           <Messages
             win = { this.state.win }
             dead = { this.state.dead }
@@ -137,10 +138,11 @@ class App extends Component{
           <div id="grid">
             { square }
           </div>
+
           <Counter
               counter = {this.state.counter}
           />
-          <button onClick= {this.reset} id="reset">Reset</button>
+          <button className="button" onClick= {this.reset} id="reset">RESET</button>
         </div>
       </>
     )
